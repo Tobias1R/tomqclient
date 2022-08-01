@@ -1,4 +1,4 @@
-module github.com/TobiasRochaBR/tomqclient
+module github.com/Tobias1R/tomqclient
 
 go 1.18
 
