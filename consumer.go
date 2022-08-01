@@ -16,7 +16,7 @@ type consumer struct {
 	status         int
 	queue          string
 	tcpMessages    []*easytcp.Message
-	messages       []*message
+	Messages       []*message
 	connection     net.Conn
 	packer         *easytcp.DefaultPacker
 	log            *logrus.Logger
@@ -93,7 +93,7 @@ func (c *consumer) Ack() error {
 	payload = append(payload, []byte(" ")...)
 	payload = append(payload, []byte(msg.id)...)
 	tcpMessage := easytcp.NewMessage(MsgAckTcpReq, payload)
-	c.messages = remove(c.messages, 0)
+	c.Messages = remove(c.Messages, 0)
 	c.workingMessage = nil
 	return c.send(tcpMessage)
 
@@ -146,7 +146,7 @@ func (c *consumer) ReceiveMessage(data []byte) {
 	qMsg := newMessage(qMsgId, c.queue, qMsgData)
 	if parseMessageData(data, &qMsgId, &qMsgData) {
 
-		c.messages = append(c.messages, qMsg)
+		c.Messages = append(c.Messages, qMsg)
 		c.workingMessage = qMsg
 		c.NAck()
 
